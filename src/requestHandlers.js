@@ -37,12 +37,16 @@ export function getTodo(req, res, next) {
         if (err) {
           return next(new restify.InternalServerError('uh oh! Something went wrong'));
         } else {
-          for (var todo of todos)
-            if(todo._id = id){
+          for (var todo of todos) {
+            if(todo._id === id){
               res.send(todo);
               db.close();
               return next();
             }
+          }
+          db.close();
+          // TODO: Fix this?
+          return new restify.BadRequestError('That todo doesn\'t seem to exist!')
         }
       });
     }
